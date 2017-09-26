@@ -1637,22 +1637,25 @@ NSInteger const kIQPreviousNextButtonToolbarTag     =   -1005;
         index > 0)
     {
         UITextField *nextTextField = textFields[index-1];
-        
-        //  Retaining textFieldView
-        UIView *textFieldRetain = _textFieldView;
-        
-        BOOL isAcceptAsFirstResponder = [nextTextField becomeFirstResponder];
-        
-        //  If it refuses then becoming previous textFieldView as first responder again.    (Bug ID: #96)
-        if (isAcceptAsFirstResponder == NO)
-        {
-            //If next field refuses to become first responder then restoring old textField as first responder.
-            [textFieldRetain becomeFirstResponder];
+        if (_skipUnResponerField) {
+            return [nextTextField becomeFirstResponder];
+        } else {
+            //  Retaining textFieldView
+            UIView *textFieldRetain = _textFieldView;
             
-            [self showLog:[NSString stringWithFormat:@"Refuses to become first responder: %@",[nextTextField _IQDescription]]];
+            BOOL isAcceptAsFirstResponder = [nextTextField becomeFirstResponder];
+            
+            //  If it refuses then becoming previous textFieldView as first responder again.    (Bug ID: #96)
+            if (isAcceptAsFirstResponder == NO)
+            {
+                //If next field refuses to become first responder then restoring old textField as first responder.
+                [textFieldRetain becomeFirstResponder];
+                
+                [self showLog:[NSString stringWithFormat:@"Refuses to become first responder: %@",[nextTextField _IQDescription]]];
+            }
+            
+            return isAcceptAsFirstResponder;
         }
-        
-        return isAcceptAsFirstResponder;
     }
     else
     {
@@ -1674,22 +1677,25 @@ NSInteger const kIQPreviousNextButtonToolbarTag     =   -1005;
         index < textFields.count-1)
     {
         UITextField *nextTextField = textFields[index+1];
-        
-        //  Retaining textFieldView
-        UIView *textFieldRetain = _textFieldView;
-        
-        BOOL isAcceptAsFirstResponder = [nextTextField becomeFirstResponder];
-        
-        //  If it refuses then becoming previous textFieldView as first responder again.    (Bug ID: #96)
-        if (isAcceptAsFirstResponder == NO)
-        {
-            //If next field refuses to become first responder then restoring old textField as first responder.
-            [textFieldRetain becomeFirstResponder];
+        if (_skipUnResponerField) {
+            return [nextTextField becomeFirstResponder];
+        } else {
+            //  Retaining textFieldView
+            UIView *textFieldRetain = _textFieldView;
             
-            [self showLog:[NSString stringWithFormat:@"Refuses to become first responder: %@",[nextTextField _IQDescription]]];
+            BOOL isAcceptAsFirstResponder = [nextTextField becomeFirstResponder];
+            
+            //  If it refuses then becoming previous textFieldView as first responder again.    (Bug ID: #96)
+            if (isAcceptAsFirstResponder == NO)
+            {
+                //If next field refuses to become first responder then restoring old textField as first responder.
+                [textFieldRetain becomeFirstResponder];
+                
+                [self showLog:[NSString stringWithFormat:@"Refuses to become first responder: %@",[nextTextField _IQDescription]]];
+            }
+            
+            return isAcceptAsFirstResponder;
         }
-        
-        return isAcceptAsFirstResponder;
     }
     else
     {

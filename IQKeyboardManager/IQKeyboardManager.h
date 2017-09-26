@@ -106,6 +106,11 @@ extern NSInteger const kIQPreviousNextButtonToolbarTag;
 @property(nonatomic, assign, getter = isEnableAutoToolbar) BOOL enableAutoToolbar;
 
 /**
+ Automatic skip UnResponerField functionality special for MMCreateOrderViewController. Default is NO.
+ */
+@property(nonatomic, assign, getter = isSkipUnResponerField) BOOL skipUnResponerField;
+
+/**
  IQAutoToolbarBySubviews:   Creates Toolbar according to subview's hirarchy of Textfield's in view.
  IQAutoToolbarByTag:        Creates Toolbar according to tag property of TextField's.
  IQAutoToolbarByPosition:   Creates Toolbar according to the y,x position of textField in it's superview coordinate.

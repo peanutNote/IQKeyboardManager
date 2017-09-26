@@ -31,6 +31,7 @@
 #import <UIKit/UISearchBar.h>
 #import <UIKit/UIViewController.h>
 #import <UIKit/UIWindow.h>
+#import <UIKit/UIScreen.h>
 
 #import <objc/runtime.h>
 
@@ -135,10 +136,36 @@
 
     if (_IQcanBecomeFirstResponder == YES)
     {
-        _IQcanBecomeFirstResponder = ([self isUserInteractionEnabled] && ![self isHidden] && [self alpha]!=0.0 && ![self isAlertViewTextField]  && ![self isSearchBarTextField]);
+        _IQcanBecomeFirstResponder = ([self isUserInteractionEnabled] && ![self isHidden] && [self alpha]!=0.0 && ![self isAlertViewTextField]  && ![self isSearchBarTextField] && [self isDisplayedInScreen]);
     }
     
     return _IQcanBecomeFirstResponder;
+}
+
+- (BOOL)isDisplayedInScreen
+{
+    if (self == nil) {
+        return NO;
+    }
+    CGRect screenRect = [UIScreen mainScreen].bounds;
+    CGRect rect = [self convertRect:self.bounds toView:nil];
+    if (CGRectIsEmpty(rect) || CGRectIsNull(rect)) {
+        return NO;
+    }
+    if (self.hidden) {
+        return NO;
+    }
+    if (self.superview == nil) {
+        return NO;
+    }
+    if (CGSizeEqualToSize(rect.size, CGSizeZero)) {
+        return  NO;
+    }
+    CGRect intersectionRect = CGRectIntersection(rect, screenRect);
+    if (CGRectIsEmpty(intersectionRect) || CGRectIsNull(intersectionRect)) {
+        return NO;
+    }
+    return YES;
 }
 
 - (NSArray*)responderSiblings
